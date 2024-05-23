@@ -1,0 +1,51 @@
+name: Package Application with Pyinstaller
+
+on:
+  workflow_dispatch:
+    inputs:
+        tag:
+            description: 'Tag to use for the release'
+            required: true
+            default: ''
+        message:
+            description: 'Message to use for the release'
+            required: true
+            default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-windows@main
+      with:
+        path: .
+
+    - name: Prepare Release Asset
+      id: prepare_release_asset
+      run: |
+        sudo cp map_name.bat dist/windows/customs.bat
+        sudo cp map_name.bat dist/windows/factory.bat
+        sudo cp map_name.bat dist/windows/ground-zero.bat
+        sudo cp map_name.bat dist/windows/interchange.bat
+        sudo cp map_name.bat dist/windows/woods.bat
+        sudo cp map_name.bat dist/windows/shoreline.bat
+        sudo cp map_name.bat dist/windows/reserve.bat
+        sudo cp map_name.bat dist/windows/lighthouse.bat
+        sudo cp map_name.bat dist/windows/streets.bat
+        sudo cp map_name.bat dist/windows/lab.bat
+        sudo cp config.ini dist/windows/config.ini
+        sudo zip -j dist/windows/EFTGPS.zip dist/windows/*
+
+    - name: Release
+      id: upload-release-asset
+      uses: softprops/action-gh-release@v2
+      with:
+        files: dist/windows/EFTGPS.zip
+        tag_name: ${{ inputs.tag }}
+        name: EFTGPS ${{ inputs.tag }}
+        body: ${{ inputs.message }}
+        make_latest: true
