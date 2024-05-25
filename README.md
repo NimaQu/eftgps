@@ -20,5 +20,4 @@ First, make sure you have chrome installed, then:
    A: U can do it urself, like use logitech G HUB to bind a key to take a screenshot rapidly, then u can see ur live location on the map smoothly. And u can use some software like [OnTopReplica](https://github.com/LorenzCK/OnTopReplica) to make chrome window on top of the game window and make it transparent, so u can see the map and the game at the same time. In case u only have one monitor.
 
 # To-Do
-- [ ] Auto delete old screenshots
 - [ ] Include chrome binary and driver in the release

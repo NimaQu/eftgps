@@ -26,6 +26,12 @@ class MyHandler(FileSystemEventHandler):
             file_name = os.path.basename(event.src_path)
             file_name_without_extension = os.path.splitext(file_name)[0]
             send_file_name_to_input_box(file_name_without_extension)
+            try:
+                os.remove(event.src_path)
+            except FileNotFoundError:
+                pass
+            except PermissionError:
+                logging.error(f"无法删除文件: {event.src_path}")
 
 
 def send_file_name_to_input_box(file_name: str):
